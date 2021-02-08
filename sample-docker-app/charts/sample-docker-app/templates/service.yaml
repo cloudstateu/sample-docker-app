@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "sample-docker-app.fullname" . }}
+  labels:
+    app: {{ template "sample-docker-app.name" . }}
+    chart: {{ template "sample-docker-app.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "sample-docker-app.name" . }}
+    release: {{ .Release.Name }}
